@@ -293,6 +293,27 @@
   @keyframes badgeIn { from { opacity: 0; transform: translateY(10px);} to { opacity: 1; transform: translateY(0);} }
   @keyframes floatY { 0%,100% { transform: translateY(0);} 50% { transform: translateY(-8px);} }
 
+  /* ---------- IMPRESSION ---------- */
+  .impression-grid {
+    display: grid;
+    grid-template-columns: 1fr 0.8fr;
+    gap: 48px;
+    align-items: center;
+  }
+  .impression-photo {
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-soft);
+    aspect-ratio: 4 / 5;
+  }
+  .impression-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .impression-text p { color: var(--text-muted); font-size: 1.05rem; max-width: 48ch; }
+
   /* ---------- FLAVORS ---------- */
   .section-head { max-width: 640px; margin-bottom: 48px; }
   .flavors { background: var(--espresso); color: var(--latte); }
@@ -411,18 +432,17 @@
   }
   .about-art {
     position: relative;
-    aspect-ratio: 1 / 1;
+    aspect-ratio: 4 / 3;
     border-radius: var(--radius-lg);
     background: linear-gradient(160deg, var(--pistazie), var(--zitrone) 60%, var(--erdbeer));
-    display: flex;
-    align-items: center;
-    justify-content: center;
     overflow: hidden;
     box-shadow: var(--shadow-soft);
   }
-  .about-art span {
-    font-size: 7rem;
-    filter: drop-shadow(0 10px 14px rgba(0,0,0,0.15));
+  .about-art img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
   }
   .about-copy p { color: var(--text-muted); font-size: 1.05rem; max-width: 56ch; }
   .about-facts {
@@ -567,6 +587,7 @@
     .hero .wrap { grid-template-columns: 1fr; }
     .hero-visual { height: 360px; order: -1; }
     .about .wrap { grid-template-columns: 1fr; }
+    .impression-grid { grid-template-columns: 1fr; }
     .about-facts { grid-template-columns: 1fr 1fr; }
     .review-grid { grid-template-columns: 1fr; }
     .location .wrap { grid-template-columns: 1fr; }
@@ -629,6 +650,20 @@
           <div class="scoop scoop-1"></div>
           <div class="waffle-cup"></div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- IMPRESSION -->
+  <section class="impression">
+    <div class="wrap impression-grid">
+      <div class="impression-text reveal">
+        <p class="eyebrow">Frisch gescoopt</p>
+        <h2>So schmeckt der Sommer.</h2>
+        <p>Jede Kugel wird von Hand geformt und direkt am Tresen für dich aufgetürmt – so schmeckt Wolfsburgs Sommer, egal ob du klassisch oder saisonal magst.</p>
+      </div>
+      <div class="impression-photo reveal">
+        <img src="images/eis-becher.jpg" alt="Eine frisch gescoopte Kugel Eis auf einer Waffel bei Eiscafé Licata" loading="lazy">
       </div>
     </div>
   </section>
@@ -701,7 +736,7 @@
   <section class="about" id="ueberuns">
     <div class="wrap">
       <div class="about-art reveal">
-        <span>🍨</span>
+        <img src="images/inhaber.jpg" alt="Der Inhaber von Eiscafé Licata mit einer Kugel Eis vor dem Café in Wolfsburg" loading="lazy">
       </div>
       <div class="about-copy reveal">
         <p class="eyebrow">Unsere Geschichte</p>
