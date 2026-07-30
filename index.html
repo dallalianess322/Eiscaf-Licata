@@ -8,7 +8,9 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8D%A6%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@500;600;700&family=Space+Mono:wght@400;700&display=swap">
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"></noscript>
 <style>
   :root {
     --pistazie: #A8C256;
@@ -24,8 +26,12 @@
 
     --radius-lg: 28px;
     --radius-md: 18px;
-    --shadow-soft: 0 12px 30px rgba(59, 42, 33, 0.12);
+    --espresso-rgb: 59, 42, 33;
+    --shadow-soft: 0 12px 30px rgba(var(--espresso-rgb), 0.12);
     --container: 1180px;
+    --text-muted: #5a463a;
+    --reveal-distance: 28px;
+    --reveal-duration: 0.7s;
   }
 
   * { box-sizing: border-box; }
@@ -105,10 +111,10 @@
     z-index: 100;
     background: rgba(251, 248, 242, 0.85);
     backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(59, 42, 33, 0.08);
+    border-bottom: 1px solid rgba(var(--espresso-rgb), 0.08);
     transition: box-shadow 0.3s ease;
   }
-  header.site-nav.scrolled { box-shadow: 0 6px 20px rgba(59, 42, 33, 0.08); }
+  header.site-nav.scrolled { box-shadow: 0 6px 20px rgba(var(--espresso-rgb), 0.08); }
   .nav-inner {
     display: flex;
     align-items: center;
@@ -198,7 +204,7 @@
     font-size: 1.15rem;
     max-width: 46ch;
     margin: 0 0 32px;
-    color: #5a463a;
+    color: var(--text-muted);
   }
   .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; }
 
@@ -242,6 +248,7 @@
     box-shadow: inset -14px -18px 30px rgba(0,0,0,0.12), var(--shadow-soft);
     opacity: 0;
     transform: translate(-50%, -260px) scale(0.6);
+    animation: scoopDrop 0.75s cubic-bezier(.34,1.56,.64,1) var(--scoop-delay, 0s) forwards;
   }
   .scoop::after {
     content: "";
@@ -252,9 +259,9 @@
     border-radius: 50%;
     filter: blur(4px);
   }
-  .scoop-1 { background: var(--pistazie); bottom: 78px; width: 210px; height: 210px; z-index: 3; animation: scoopDrop 0.75s cubic-bezier(.34,1.56,.64,1) 0.75s forwards; }
-  .scoop-2 { background: var(--erdbeer); bottom: 198px; width: 175px; height: 175px; z-index: 2; animation: scoopDrop 0.75s cubic-bezier(.34,1.56,.64,1) 1.05s forwards; }
-  .scoop-3 { background: var(--zitrone); bottom: 300px; width: 145px; height: 145px; z-index: 1; animation: scoopDrop 0.75s cubic-bezier(.34,1.56,.64,1) 1.35s forwards; }
+  .scoop-1 { background: var(--pistazie); bottom: 78px; width: 210px; height: 210px; z-index: 3; --scoop-delay: 0.75s; }
+  .scoop-2 { background: var(--erdbeer); bottom: 198px; width: 175px; height: 175px; z-index: 2; --scoop-delay: 1.05s; }
+  .scoop-3 { background: var(--zitrone); bottom: 300px; width: 145px; height: 145px; z-index: 1; --scoop-delay: 1.35s; }
   @keyframes scoopDrop {
     0% { opacity: 0; transform: translate(-50%, -220px) scale(0.5); }
     70% { opacity: 1; }
@@ -287,10 +294,11 @@
   @keyframes floatY { 0%,100% { transform: translateY(0);} 50% { transform: translateY(-8px);} }
 
   /* ---------- FLAVORS ---------- */
+  .section-head { max-width: 640px; margin-bottom: 48px; }
   .flavors { background: var(--espresso); color: var(--latte); }
-  .flavors .eyebrow { color: var(--zitrone); }
+  .flavors .eyebrow,
+  .location .eyebrow { color: var(--zitrone); }
   .flavors h2 { color: var(--latte); font-size: clamp(2rem, 4vw, 2.8rem); }
-  .flavors .section-head { max-width: 640px; margin-bottom: 48px; }
   .flavors p.section-lead { color: #d8cabf; font-size: 1.05rem; }
 
   .flavor-scroll {
@@ -307,6 +315,7 @@
   .flavor-scroll::-webkit-scrollbar-thumb { background: var(--pistazie); border-radius: 8px; }
 
   .flavor-card {
+    --py: 0px;
     scroll-snap-align: start;
     flex: 0 0 240px;
     background: #4a362a;
@@ -315,14 +324,14 @@
     position: relative;
     overflow: hidden;
     opacity: 0;
-    transform: translateY(36px);
-    transition: opacity 0.7s ease, transform 0.7s ease, box-shadow 0.35s ease, translate 0.35s ease;
-    will-change: transform;
+    transform: translateY(calc(var(--reveal-distance) + 8px)) translateY(var(--py));
+    transition: opacity var(--reveal-duration) ease, transform var(--reveal-duration) ease, box-shadow 0.35s ease;
   }
-  .flavor-card.is-visible { opacity: 1; transform: translateY(0); }
+  .flavor-card.is-visible { opacity: 1; transform: translateY(var(--py)); }
   .flavor-card:hover {
     box-shadow: 0 18px 34px rgba(0,0,0,0.35);
-    transform: translateY(-8px);
+    transform: translateY(calc(var(--py) - 8px));
+    will-change: transform;
   }
   .flavor-card::before {
     content: "";
@@ -415,7 +424,7 @@
     font-size: 7rem;
     filter: drop-shadow(0 10px 14px rgba(0,0,0,0.15));
   }
-  .about-copy p { color: #5a463a; font-size: 1.05rem; max-width: 56ch; }
+  .about-copy p { color: var(--text-muted); font-size: 1.05rem; max-width: 56ch; }
   .about-facts {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -450,10 +459,9 @@
     padding: 28px;
     box-shadow: var(--shadow-soft);
     opacity: 0;
-    transform: translateY(24px);
-    transition: opacity 0.6s ease, transform 0.6s ease;
+    transform: translateY(var(--reveal-distance));
+    transition: opacity var(--reveal-duration) ease, transform var(--reveal-duration) ease;
   }
-  .review-card.is-visible { opacity: 1; transform: translateY(0); }
   .review-stars { color: var(--zitrone); font-size: 1rem; letter-spacing: 2px; margin-bottom: 12px; }
   .review-card p.quote { font-size: 1rem; color: #4a382e; margin: 0 0 16px; }
   .review-author { font-family: var(--font-utility); font-size: 0.82rem; color: var(--sizilien-blau); }
@@ -482,6 +490,7 @@
     box-shadow: var(--shadow-soft);
   }
   .hours-card h3 { font-family: var(--font-body); font-weight: 700; font-size: 1.2rem; margin-bottom: 18px; }
+  .address-block h3 { margin-bottom: 8px; }
   table.hours { width: 100%; border-collapse: collapse; font-family: var(--font-utility); font-size: 0.95rem; }
   table.hours td { padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.15); }
   table.hours td:last-child { text-align: right; }
@@ -528,8 +537,9 @@
   }
 
   /* ---------- REVEAL ---------- */
-  .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
-  .reveal.is-visible { opacity: 1; transform: translateY(0); }
+  .reveal { opacity: 0; transform: translateY(var(--reveal-distance)); transition: opacity var(--reveal-duration) ease, transform var(--reveal-duration) ease; }
+  .reveal.is-visible,
+  .review-card.is-visible { opacity: 1; transform: translateY(0); }
 
   /* ---------- RESPONSIVE ---------- */
   @media (max-width: 900px) {
@@ -541,7 +551,7 @@
       width: 40px; height: 40px;
       border-radius: 10px;
       border: none;
-      background: rgba(59,42,33,0.08);
+      background: rgba(var(--espresso-rgb), 0.08);
       cursor: pointer;
     }
     nav.links.open {
@@ -710,7 +720,7 @@
   <!-- REVIEWS -->
   <section class="reviews" id="bewertungen">
     <div class="wrap">
-      <div class="section-head reveal" style="margin-bottom:44px; max-width:640px;">
+      <div class="section-head reveal">
         <p class="eyebrow">Was Gäste sagen</p>
         <h2>Süße Worte von unseren Gästen</h2>
       </div>
@@ -746,14 +756,14 @@
         </iframe>
       </div>
       <div class="hours-card reveal">
-        <p class="eyebrow" style="color:var(--zitrone);">Besuch uns</p>
+        <p class="eyebrow">Besuch uns</p>
         <h3>Öffnungszeiten</h3>
         <table class="hours">
           <tr><td>Montag</td><td>14:00 – 19:00 Uhr</td></tr>
           <tr><td>Dienstag – Sonntag</td><td>09:30 – 19:30 Uhr</td></tr>
         </table>
         <div class="address-block">
-          <h3 style="margin-bottom:8px;">Adresse</h3>
+          <h3>Adresse</h3>
           <p>Eiscafé Licata</p>
           <p>Wiesenstraße 1</p>
           <p>38448 Wolfsburg</p>
@@ -784,8 +794,13 @@
 <script>
   // Nav scroll shadow
   const nav = document.getElementById('siteNav');
+  let navIsScrolled = false;
   window.addEventListener('scroll', () => {
-    nav.classList.toggle('scrolled', window.scrollY > 12);
+    const shouldBeScrolled = window.scrollY > 12;
+    if (shouldBeScrolled !== navIsScrolled) {
+      navIsScrolled = shouldBeScrolled;
+      nav.classList.toggle('scrolled', navIsScrolled);
+    }
   }, { passive: true });
 
   // Mobile nav toggle
@@ -816,20 +831,24 @@
   const flavorScroll = document.getElementById('flavorScroll');
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (!reduceMotion && flavorScroll) {
+    const cards = [...flavorScroll.querySelectorAll('.flavor-card')];
+    let cardMids = [];
+    const measureCards = () => {
+      cardMids = cards.map(card => card.offsetLeft + card.offsetWidth / 2);
+    };
+    measureCards();
+    window.addEventListener('resize', measureCards, { passive: true });
+
     let ticking = false;
     flavorScroll.addEventListener('scroll', () => {
       if (ticking) return;
       ticking = true;
       requestAnimationFrame(() => {
-        const cards = flavorScroll.querySelectorAll('.flavor-card');
         const mid = flavorScroll.scrollLeft + flavorScroll.clientWidth / 2;
-        cards.forEach(card => {
-          const cardMid = card.offsetLeft + card.offsetWidth / 2;
-          const dist = Math.abs(mid - cardMid);
-          const offset = Math.min(dist / 18, 10);
-          card.style.transform = card.classList.contains('is-visible')
-            ? `translateY(${offset - 6}px)`
-            : '';
+        cards.forEach((card, i) => {
+          const dist = Math.abs(mid - cardMids[i]);
+          const offset = Math.min(dist / 18, 10) - 6;
+          card.style.setProperty('--py', `${offset}px`);
         });
         ticking = false;
       });
