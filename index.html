@@ -459,19 +459,18 @@
   .flavor-scoop::before {
     content: "";
     position: absolute;
-    bottom: -2px; left: 50%;
-    width: 10px; height: 14px;
+    bottom: 2px; left: 50%;
+    width: 11px; height: 11px;
     background: inherit;
-    border-radius: 0 50% 50% 50%;
-    box-shadow: inset -2px -2px 4px rgba(0,0,0,0.15);
-    transform-origin: top center;
-    transform: translateX(-50%) rotate(45deg) scale(0);
+    border-radius: 50%;
+    box-shadow: inset -2px -2px 3px rgba(0,0,0,0.22), 0 2px 3px rgba(0,0,0,0.12);
+    transform: translate(-50%, -4px) scale(0.25);
     opacity: 0;
-    transition: transform 0.45s cubic-bezier(.34,1.2,.64,1), opacity 0.3s ease;
+    transition: transform 0.5s cubic-bezier(.32,1.1,.4,1), opacity 0.3s ease;
   }
   .flavor-card:hover .flavor-scoop::before {
     opacity: 1;
-    transform: translateX(-50%) rotate(45deg) scale(1) translateY(10px);
+    transform: translate(-50%, 9px) scale(1);
   }
   .flavor-scoop::after {
     content: "";
