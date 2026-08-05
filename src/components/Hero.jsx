@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import useMagneticHover from '../hooks/useMagneticHover.js';
 
-const CONFETTI_COLORS = ['var(--pistazie)', 'var(--erdbeer)', 'var(--zitrone)', 'var(--sizilien-blau)'];
+const CONFETTI_COLORS = ['var(--terracotta)', 'var(--pino)', 'var(--ocra)', 'var(--maiolica-blu)'];
 
 function burstConfetti(originX, originY) {
   const count = 14;

@@ -34,7 +34,7 @@ export default function Header() {
           aria-expanded={menuOpen}
           onClick={() => setMenuOpen((open) => !open)}
         >
-          <svg width="20" height="14" viewBox="0 0 20 14" fill="none"><path d="M0 1H20M0 7H20M0 13H20" stroke="#3B2A21" strokeWidth="2" /></svg>
+          <svg width="20" height="14" viewBox="0 0 20 14" fill="none"><path d="M0 1H20M0 7H20M0 13H20" stroke="#2B1B14" strokeWidth="2" /></svg>
         </button>
         <nav className={`links${menuOpen ? ' open' : ''}`}>
           {LINKS.map((link) => (
