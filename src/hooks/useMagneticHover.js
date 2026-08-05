@@ -11,12 +11,21 @@ export default function useMagneticHover(ref, reduced) {
     const maxX = 8;
     const maxY = 6;
 
+    let ticking = false;
+    let pendingX = 0;
+    let pendingY = 0;
+
     const onMove = (e) => {
       const rect = el.getBoundingClientRect();
-      const x = e.clientX - rect.left - rect.width / 2;
-      const y = e.clientY - rect.top - rect.height / 2;
-      el.style.setProperty('--mx', `${Math.max(-maxX, Math.min(maxX, x * 0.25)).toFixed(1)}px`);
-      el.style.setProperty('--my', `${Math.max(-maxY, Math.min(maxY, y * 0.3)).toFixed(1)}px`);
+      pendingX = e.clientX - rect.left - rect.width / 2;
+      pendingY = e.clientY - rect.top - rect.height / 2;
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        el.style.setProperty('--mx', `${Math.max(-maxX, Math.min(maxX, pendingX * 0.25)).toFixed(1)}px`);
+        el.style.setProperty('--my', `${Math.max(-maxY, Math.min(maxY, pendingY * 0.3)).toFixed(1)}px`);
+        ticking = false;
+      });
     };
     const onLeave = () => {
       el.style.setProperty('--mx', '0px');
