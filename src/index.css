@@ -220,10 +220,12 @@ nav.links a:hover::after { width: 100%; }
   padding: 8px 14px;
   border-radius: 999px;
   margin-bottom: 20px;
+  animation: heroCopyIn 0.7s var(--ease-out-soft) 0.05s both;
 }
 .hero-copy h1 {
   font-size: clamp(2.6rem, 5vw, 4.2rem);
   color: var(--inchiostro);
+  animation: heroCopyIn 0.7s var(--ease-out-soft) 0.16s both;
 }
 .hero-copy h1 em {
   font-style: normal;
@@ -234,8 +236,13 @@ nav.links a:hover::after { width: 100%; }
   max-width: 46ch;
   margin: 0 0 32px;
   color: var(--text-muted);
+  animation: heroCopyIn 0.7s var(--ease-out-soft) 0.3s both;
 }
-.hero-actions { display: flex; gap: 16px; flex-wrap: wrap; }
+.hero-actions { display: flex; gap: 16px; flex-wrap: wrap; animation: heroCopyIn 0.7s var(--ease-out-soft) 0.42s both; }
+@keyframes heroCopyIn {
+  0% { opacity: 0; transform: translateY(18px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
 
 /* Hero scoop animation */
 .hero-visual {
@@ -389,6 +396,18 @@ nav.links a:hover::after { width: 100%; }
   gap: 48px;
   align-items: center;
 }
+/* Clip-path lives on an inner, unobserved wrapper — putting it on the
+   IntersectionObserver target itself zeroes its intersection ratio while
+   clipped, so the reveal would never trigger (chicken-and-egg). */
+.photo-clip {
+  width: 100%;
+  height: 100%;
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 0.9s var(--ease-out-soft);
+}
+.impression-photo.is-visible .photo-clip,
+.about-art.is-visible .photo-clip { clip-path: inset(0 0 0 0); }
+
 .impression-photo {
   border-radius: var(--radius-lg);
   overflow: hidden;
@@ -400,12 +419,33 @@ nav.links a:hover::after { width: 100%; }
   height: 100%;
   object-fit: cover;
   display: block;
+  transform: scale(1.12);
+  transition: transform 0.9s var(--ease-out-soft);
 }
+.impression-photo.is-visible img { transform: scale(1); }
 .impression-text p { color: var(--text-muted); font-size: 1.05rem; max-width: 48ch; }
 
 /* ---------- FLAVORS ---------- */
 .section-head { max-width: 640px; margin-bottom: 48px; }
-.flavors { background: var(--inchiostro); color: var(--crema); }
+.flavors {
+  background: var(--inchiostro);
+  color: var(--crema);
+  position: relative;
+}
+.flavors::before,
+.flavors::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0;
+  height: 18px;
+  background:
+    repeating-linear-gradient(45deg, var(--maiolica-blu) 0 9px, transparent 9px 18px),
+    repeating-linear-gradient(-45deg, var(--terracotta) 0 9px, transparent 9px 18px),
+    var(--ocra);
+  background-size: 18px 18px;
+}
+.flavors::before { top: 0; }
+.flavors::after { bottom: 0; }
 .flavors .eyebrow { color: var(--ocra); }
 .flavors h2 { color: var(--crema); font-size: clamp(2rem, 4vw, 2.8rem); }
 .flavors p.section-lead { color: #d8cabf; font-size: 1.05rem; }
@@ -425,6 +465,7 @@ nav.links a:hover::after { width: 100%; }
 
 .flavor-card {
   --py: 0px;
+  --stagger: 0;
   scroll-snap-align: start;
   flex: 0 0 240px;
   background: #4a362a;
@@ -435,7 +476,7 @@ nav.links a:hover::after { width: 100%; }
   opacity: 0;
   translate: 0 0;
   transform: translateY(calc(var(--reveal-distance) + 8px)) translateY(var(--py));
-  transition: opacity var(--reveal-duration) var(--ease-out-soft), transform var(--reveal-duration) var(--ease-out-soft), translate var(--duration-fast) var(--ease-out-soft), box-shadow var(--duration-slow) var(--ease-out-soft);
+  transition: opacity var(--reveal-duration) var(--ease-out-soft) calc(var(--stagger) * 45ms), transform var(--reveal-duration) var(--ease-out-soft) calc(var(--stagger) * 45ms), translate var(--duration-fast) var(--ease-out-soft), box-shadow var(--duration-slow) var(--ease-out-soft);
 }
 .flavor-card.is-visible { opacity: 1; transform: translateY(var(--py)); }
 .flavor-card:hover {
@@ -559,7 +600,10 @@ nav.links a:hover::after { width: 100%; }
   height: 100%;
   object-fit: cover;
   display: block;
+  transform: scale(1.12);
+  transition: transform 0.9s var(--ease-out-soft);
 }
+.about-art.is-visible img { transform: scale(1); }
 .about-copy p { color: var(--text-muted); font-size: 1.05rem; max-width: 56ch; }
 .about-facts {
   display: grid;
@@ -599,6 +643,19 @@ nav.links a:hover::after { width: 100%; }
   transition: opacity var(--reveal-duration) ease, transform var(--reveal-duration) ease;
 }
 .review-stars { color: var(--ocra); font-size: 1rem; letter-spacing: 2px; margin-bottom: 12px; }
+.review-stars span {
+  display: inline-block;
+  opacity: 0;
+  transform: scale(0.4);
+}
+.review-card.is-visible .review-stars span {
+  animation: starPop 0.4s var(--ease-impact) both;
+  animation-delay: calc(0.3s + var(--star-i) * 70ms);
+}
+@keyframes starPop {
+  0% { opacity: 0; transform: scale(0.4); }
+  100% { opacity: 1; transform: scale(1); }
+}
 .review-card p.quote { font-size: 1rem; color: #4a382e; margin: 0 0 16px; }
 .review-author { font-family: var(--font-utility); font-size: 0.82rem; color: var(--maiolica-blu); }
 
@@ -716,11 +773,17 @@ footer .logo span { color: var(--terracotta); }
   *, *::before, *::after {
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
+    animation-delay: 0ms !important;
     transition-duration: 0.001ms !important;
+    transition-delay: 0ms !important;
     scroll-behavior: auto !important;
   }
   .waffle-cup, .scoop, .float-badge, .flavor-card, .review-card, .reveal {
     opacity: 1 !important;
+    transform: none !important;
+  }
+  .photo-clip, .impression-photo img, .about-art img {
+    clip-path: none !important;
     transform: none !important;
   }
 }

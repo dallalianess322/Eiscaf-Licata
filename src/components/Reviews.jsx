@@ -24,7 +24,11 @@ export default function Reviews() {
         <div className="review-grid">
           {REVIEWS.map((review) => (
             <div className="review-card" key={review.author}>
-              <div className="review-stars">★★★★★</div>
+              <div className="review-stars">
+                {[0, 1, 2, 3, 4].map((i) => (
+                  <span key={i} style={{ '--star-i': i }}>★</span>
+                ))}
+              </div>
               <p className="quote">„{review.quote}"</p>
               <div className="review-author">{review.author}</div>
             </div>

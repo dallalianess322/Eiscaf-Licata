@@ -3,7 +3,9 @@ export default function About() {
     <section className="about" id="ueberuns">
       <div className="wrap">
         <div className="about-art reveal">
-          <img src="/images/inhaber.jpg" alt="Der Inhaber von Eiscafé Licata mit einer Kugel Eis vor dem Café in Wolfsburg" loading="lazy" />
+          <div className="photo-clip">
+            <img src="/images/inhaber.jpg" alt="Der Inhaber von Eiscafé Licata mit einer Kugel Eis vor dem Café in Wolfsburg" loading="lazy" />
+          </div>
         </div>
         <div className="about-copy reveal">
           <p className="eyebrow">Unsere Geschichte</p>

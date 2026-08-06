@@ -57,8 +57,8 @@ export default function Flavors({ reducedMotion }) {
           <p className="section-lead">Von klassischer Pistazie bis zur Sorte der Saison – bei uns wird jede Kugel frisch von Hand gerührt. Scroll durch und lass dich inspirieren.</p>
         </div>
         <div className="flavor-scroll" ref={scrollRef}>
-          {FLAVORS.map((flavor) => (
-            <div className="flavor-card" key={flavor.name}>
+          {FLAVORS.map((flavor, i) => (
+            <div className="flavor-card" key={flavor.name} style={{ '--stagger': i }}>
               <div className={`flavor-scoop ${flavor.swatch}`} />
               <h3>{flavor.name}</h3>
               <p>{flavor.desc}</p>
